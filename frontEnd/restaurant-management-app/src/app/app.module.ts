@@ -6,11 +6,16 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth-components/auth/auth.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { LoginComponent } from './auth-components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -18,6 +23,9 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
 
   ],
   providers: [],

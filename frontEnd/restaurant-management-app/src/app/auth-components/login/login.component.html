@@ -7,35 +7,12 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                  Sign up
+                  Sign in
                 </p>
 
                 <form class="mx-1 mx-md-4 "
                 [formGroup]="validateForm"
                 [class.was-validated]="isFormSubmitted">
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input
-                        type="text"
-                        placeholder="Username"
-                        id="form3Example1c"
-                        class="form-control"
-                        formControlName="name"
-                        [ngClass]="{'is-invalid':isFormSubmitted &&
-                        validateForm.controls['name'].errors}"
-                        required
-                      />
-                      <div
-                    class="invalid-feedback"
-                    *ngIf="validateForm.controls['name'].errors?.['required']">
-                    Username is required
-                   </div>
-
-
-                    </div>
-                  </div>
 
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -80,40 +57,17 @@
                     </div>
                   </div>
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input
-                        type="password"
-                        placeholder="Repeat password"
-                        id="form3Example4cd"
-                        class="form-control"
-                        formControlName="checkPassword"
-                        [ngClass]="{'is-invalid':isFormSubmitted &&
-                        validateForm.controls['checkPassword'].errors}"
-                        required
-                      />
-                       <div class="invalid-feedback" *ngIf="validateForm.controls['checkPassword'].errors?.['required']">
-                         Confirm password is required
-                       </div>
-
-                       <div class="invalid-feedback" *ngIf="validateForm.controls['checkPassword'].errors?.['confirmPasswordValidator']">
-                        password mismatch
-                      </div>
-
-                    </div>
-                  </div>
 
                   <div class="d-flex justify-content-center mb-5">
                     <span class="form-check-label" for="form2Example3">
-                       Already have an account?
-                      <a routerLink="/login">Login in</a>
+                      Not a member?
+                      <a routerLink="/signup">Register</a>
                     </span>
                   </div>
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="button" class="btn btn-primary btn-lg" (click)="register()">
-                      Register
+                    <button type="button" class="btn btn-primary btn-lg" (click)="login()">
+                      Login
                     </button>
                   </div>
                 </form>

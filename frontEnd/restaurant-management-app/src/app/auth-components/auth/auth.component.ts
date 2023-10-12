@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/auth-services/auth.service';
 import { ConfirmPasswordValidator } from 'src/validators/confirm-password.validator';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Component({
   selector: 'app-auth',
@@ -14,22 +18,14 @@ export class AuthComponent {
   isFormSubmitted:boolean = false;
   validateForm: FormGroup;
 
-  // confirmationValidation = (control:FormControl): { [s: string]: boolean} => {
-  //    if(!control.value){
-  //       return { requird:true };
-  //    } else if(control.value != this.validateForm.controls['password'].value){
-  //       return { confirm: true, error: true }
-  //    }
-  //    return {};
-  // }
-
 
   constructor(private authService: AuthService,
-              private fb: FormBuilder){}
+              private fb: FormBuilder,
+              private toastr: ToastrService,
+              private spinner: NgxSpinnerService){}
 
 
   ngOnInit(){
-
      this.myForm();
   }
 
@@ -52,14 +48,6 @@ export class AuthComponent {
 
 
 
-
-
-
-
-
-
-
-
   register(){
 
     this.isFormSubmitted = true;
@@ -67,12 +55,15 @@ export class AuthComponent {
       console.log(this.validateForm.value)
       this.authService.signup(this.validateForm.value).subscribe({
         next: res =>{
-          if(res.id != null){
-            // success message ("SUCCESS", "You're registered successfully")
-          }
+            this.spinner.show();
+            this.toastr.success("Success", "You're Register Successfully", {timeOut: 5000})
+            setTimeout(() => {
+              this.spinner.hide();
+            }, 3000);
+            this.validateForm.reset();
         },
-        error: err =>{
-
+        error: (err:HttpErrorResponse) =>{
+          this.toastr.error('Error', 'There is Some Error', {timeOut: 5000})
         }
       })
     }
