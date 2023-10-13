@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ import com.ninos.model.dto.AuthenticationRequest;
 import com.ninos.model.dto.AuthenticationResponse;
 import com.ninos.model.dto.SignupRequest;
 import com.ninos.model.dto.UserDTO;
+import com.ninos.model.entity.User;
+import com.ninos.repository.UserRepository;
 import com.ninos.service.auth.AuthService;
 import com.ninos.service.jwt.UserDetailsServiceImpl;
 import com.ninos.util.JwtUtil;
@@ -34,6 +37,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
 
     @PostMapping("/signup")
@@ -60,7 +64,13 @@ public class AuthController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        return new AuthenticationResponse(jwt);
+        Optional<User> user = userRepository.findUserByEmail(userDetails.getUsername());
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setJwt(jwt);
+        authenticationResponse.setUserRole(user.get().getUserRole());
+        authenticationResponse.setUserId(user.get().getId());
+
+        return authenticationResponse;
     }
 
 

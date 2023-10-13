@@ -20,4 +20,10 @@ export class AuthService {
 
 
 
+  public login(loginRequest:any):Observable<any>{
+     return this.http.post<any>(`${this.BASE_URL}/login`,loginRequest);
+  }
+
+
+
 }
