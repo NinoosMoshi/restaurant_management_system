@@ -24,5 +24,45 @@ export class StorageService {
   }
 
 
+  public static getToken():string{
+    return localStorage.getItem(TOKEN);
+  }
+
+
+  public static getUserRole():string{
+    const user = this.getUser();
+    if(user == null){
+      return '';
+    }
+    return user.role;
+  }
+
+  static getUser(): any {
+     return JSON.parse(localStorage.getItem(USER));
+  }
+
+
+  public static isAdminLoggedIn():boolean{
+    if(this.getToken() === null){
+       return false;
+    }
+    const role:string = this.getUserRole();
+    return role == 'ADMIN'
+  }
+
+
+
+  public static isCustomerLoggedIn():boolean{
+    if(this.getToken() === null){
+       return false;
+    }
+    const role:string = this.getUserRole();
+    return role == 'CUSTOMER'
+  }
+
+
+
+
+
 
 }

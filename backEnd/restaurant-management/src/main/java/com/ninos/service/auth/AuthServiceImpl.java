@@ -1,6 +1,7 @@
 package com.ninos.service.auth;
 
 
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +18,21 @@ import com.ninos.repository.UserRepository;
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
+
+    @PostConstruct
+    public void createAdminAccount(){
+        User adminAccount = userRepository.findUserByUserRole(UserRole.ADMIN);
+        if (adminAccount == null){
+            User user = new User();
+            user.setName("admin");
+            user.setEmail("admin@gmail.com");
+            user.setPassword(new BCryptPasswordEncoder().encode("admin111"));
+            user.setUserRole(UserRole.ADMIN);
+            userRepository.save(user);
+        }
+    }
+
+
 
 
     @Override

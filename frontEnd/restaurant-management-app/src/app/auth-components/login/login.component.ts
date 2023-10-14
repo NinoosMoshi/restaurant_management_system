@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from "ngx-spinner";
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from 'src/app/services/storage-services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent {
   constructor(private authService: AuthService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService){}
+    private spinner: NgxSpinnerService,
+    private router: Router){}
 
 
    ngOnInit(){
@@ -58,6 +60,15 @@ myForm(){
              console.log(user);
              StorageService.saveToken(res.jwt);
              StorageService.saveUser(user);
+
+             if(StorageService.isAdminLoggedIn()){
+                this.router.navigateByUrl("/admin/dashboard");
+             }
+             else if(StorageService.isCustomerLoggedIn()){
+                this.router.navigateByUrl("/customer/dashboard");
+             }
+
+
           }else{
             this.toastr.error('Invalid username or password', 'wrong credentials', {timeOut: 4000});
           }
