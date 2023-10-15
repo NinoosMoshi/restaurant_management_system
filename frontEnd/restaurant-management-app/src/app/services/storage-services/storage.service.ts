@@ -61,7 +61,10 @@ export class StorageService {
   }
 
 
-
+  public static signout(){
+    window.localStorage.removeItem(USER);
+    window.localStorage.removeItem(TOKEN);
+  }
 
 
 

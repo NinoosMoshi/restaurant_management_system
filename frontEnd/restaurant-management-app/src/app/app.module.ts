@@ -10,12 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { LoginComponent } from './auth-components/login/login.component';
+import { HeaderComponent } from './header-component/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    LoginComponent
+    LoginComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
