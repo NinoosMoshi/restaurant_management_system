@@ -26,6 +26,7 @@ import com.ninos.model.entity.User;
 import com.ninos.repository.UserRepository;
 import com.ninos.service.auth.AuthService;
 import com.ninos.service.jwt.UserDetailsServiceImpl;
+import com.ninos.service.jwt.UserService;
 import com.ninos.util.JwtUtil;
 
 @AllArgsConstructor
@@ -35,7 +36,8 @@ public class AuthController {
 
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsServiceImpl userDetailsService;
+//    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
@@ -62,8 +64,8 @@ public class AuthController {
             return null;
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+        final UserDetails userDetails = userService.UserDetailsService().loadUserByUsername(authenticationRequest.getEmail());
+        final String jwt = jwtUtil.generateToken(userDetails);
         Optional<User> user = userRepository.findUserByEmail(userDetails.getUsername());
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setJwt(jwt);
