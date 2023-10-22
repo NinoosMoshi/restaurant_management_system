@@ -18,8 +18,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-//    public static final String SECRET = "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssseeeeeeeeeeeeeeeeeeeeeeeeeeeeeessssssssssssssssssssssssssssssssssssssssssssssssssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrcccccccccccccccccccccccccccccccccccccccccccccccccsssssssssssssssssssssssssssssgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
-
       public String generateToken(UserDetails userDetails){
           return generateToken(new HashMap<>(), userDetails);
       }
@@ -28,7 +26,7 @@ public class JwtUtil {
       private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
           return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                   .setIssuedAt(new Date(System.currentTimeMillis()))
-                  .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                  .setExpiration(new Date(System.currentTimeMillis() + 10000 * 60 * 24))
                   .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
       }
 
@@ -46,7 +44,7 @@ public class JwtUtil {
 
       public boolean isTokenValid(String token, UserDetails userDetails){
           final String userName = extractUserName(token);
-          return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+          return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
       }
 
 

@@ -9,7 +9,7 @@ import com.ninos.model.enums.UserRole;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findUserByEmail(String email);
+    Optional<User> findFirstByEmail(String email);
     User findUserByUserRole(UserRole userRole);
 
 }

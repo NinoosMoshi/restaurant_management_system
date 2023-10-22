@@ -1,5 +1,5 @@
 <div class="container">
-  <form>
+  <form [formGroup]="categoryForm" [class.was-validated]="isFormSubmitted">
     <div class="p-5 mt-5">
       <h3 class="text-center mb-5">Add Category</h3>
       <img src="..." class="img-fluid" alt="..." />
@@ -14,7 +14,19 @@
           class="form-control"
           id="exampleFormControlInput1"
           placeholder="category title"
+          formControlName="name"
+          [ngClass]="{
+            'is-invalid':
+              isFormSubmitted && categoryForm.controls['name'].errors
+          }"
+          required
         />
+        <div
+          class="invalid-feedback"
+          *ngIf="categoryForm.controls['name'].errors?.['required']"
+        >
+          Category name is required
+        </div>
       </div>
 
       <div class="mb-3">
@@ -23,11 +35,23 @@
           id="exampleFormControlTextarea1"
           rows="3"
           placeholder="category description"
+          formControlName="description"
+          [ngClass]="{
+            'is-invalid':
+              isFormSubmitted && categoryForm.controls['description'].errors
+          }"
+          required
         ></textarea>
+        <div
+          class="invalid-feedback"
+          *ngIf="categoryForm.controls['description'].errors?.['required']"
+        >
+          Category description is required
+        </div>
       </div>
 
       <div class="d-grid gap-2">
-        <button class="btn btn-primary" type="button">Add Category</button>
+        <button class="btn btn-primary" type="button" (click)="postCategory()">Add Category</button>
       </div>
     </div>
   </form>

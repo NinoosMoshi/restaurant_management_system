@@ -25,7 +25,7 @@ import com.ninos.model.dto.UserDTO;
 import com.ninos.model.entity.User;
 import com.ninos.repository.UserRepository;
 import com.ninos.service.auth.AuthService;
-import com.ninos.service.jwt.UserDetailsServiceImpl;
+
 import com.ninos.service.jwt.UserService;
 import com.ninos.util.JwtUtil;
 
@@ -36,7 +36,6 @@ public class AuthController {
 
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
-//    private final UserDetailsServiceImpl userDetailsService;
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
@@ -66,11 +65,13 @@ public class AuthController {
 
         final UserDetails userDetails = userService.UserDetailsService().loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
-        Optional<User> user = userRepository.findUserByEmail(userDetails.getUsername());
+        Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setJwt(jwt);
-        authenticationResponse.setUserRole(user.get().getUserRole());
-        authenticationResponse.setUserId(user.get().getId());
+        if (optionalUser.isPresent()){
+            authenticationResponse.setJwt(jwt);
+            authenticationResponse.setUserRole(optionalUser.get().getUserRole());
+            authenticationResponse.setUserId(optionalUser.get().getId());
+        }
 
         return authenticationResponse;
     }
